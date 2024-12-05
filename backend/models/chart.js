@@ -4,12 +4,10 @@ const ChartDataSchema = new mongoose.Schema({
   type: {
     type: String,
     enum: [
-      'renewableCapacity', 
+      'renewableGrowth', 
       'energySourceDistribution', 
       'co2Reduction', 
-      'investmentTrends',
-      'globalMilestones',
-      'emergingTrends'
+      'investmentTrends'
     ],
     required: true
   },
@@ -18,13 +16,23 @@ const ChartDataSchema = new mongoose.Schema({
     default: new Date().getFullYear()
   },
   data: {
-    type: mongoose.Schema.Types.Mixed,
-    required: true
+    labels: [String],
+    datasets: [{
+      label: String,
+      data: [Number],
+      borderColor: {
+        type: String,
+        default: ''
+      },
+      backgroundColor: {
+        type: [String],
+        default: []
+      }
+    }]
   },
   metadata: {
-    title: String,
-    description: String,
-    source: String
+    type: String,
+    default: ''
   },
   createdAt: {
     type: Date,

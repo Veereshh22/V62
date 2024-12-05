@@ -3,7 +3,7 @@ const cors = require('cors');
 require('dotenv').config();
 const connectDB = require('./config/db');
 const authRoutes = require('./routes/auth');
-const statsRoutes = require('./routes/chart');
+const chartRoutes = require('./routes/chart');
 
 const app = express();
 
@@ -16,7 +16,7 @@ connectDB();
 
 // Routes
 app.use('/api/auth', authRoutes);
-app.use('/api/stats', statsRoutes);
+app.use('/api/chartData', chartRoutes);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {

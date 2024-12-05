@@ -1,12 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const chartController = require('../controllers/chartController');
+const { getChartData, getYearlyInsights } = require('../controllers/chartController');
 const authMiddleware = require('../middleware/auth');
 
 // Protect routes with authentication middleware
-router.post('/charts', authMiddleware, chartController.createChartData);
-router.get('/charts', authMiddleware, chartController.getChartData);
-router.put('/charts/:id', authMiddleware, chartController.updateChartData);
-router.get('/insights', authMiddleware, chartController.getYearlyInsights);
+router.get('/charts', authMiddleware, getChartData);
+router.get('/insights', authMiddleware, getYearlyInsights);
 
 module.exports = router;

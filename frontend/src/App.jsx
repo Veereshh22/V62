@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css';
+
 
 // Import components
 import Login from './components/Login';

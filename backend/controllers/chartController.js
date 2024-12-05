@@ -1,45 +1,5 @@
-const ChartData = require('../models/chart');
-
-exports.createChartData = async (req, res) => {
-  try {
-    const { type, data, metadata } = req.body;
-    
-    const newChartData = new ChartData({
-      type,
-      data,
-      metadata,
-      year: new Date().getFullYear()
-    });
-
-    await newChartData.save();
-    
-    res.status(201).json({
-      message: 'Chart data created successfully',
-      data: newChartData
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: 'Error creating chart data',
-      error: error.message
-    });
-  }
-};
-
 exports.getChartData = async (req, res) => {
   try {
-    const { type, year } = req.query;
-    
-    const query = {
-      year: year || new Date().getFullYear()
-    };
-    
-    if (type) {
-      query.type = type;
-    }
-
-    const chartData = await ChartData.find(query);
-    
-    // Transform data for frontend
     const transformedData = {
       renewableGrowth: {
         labels: ['2020', '2021', '2022', '2023', '2024'],
@@ -104,39 +64,6 @@ exports.getChartData = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       message: 'Error fetching chart data',
-      error: error.message
-    });
-  }
-};
-
-exports.updateChartData = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { data, metadata } = req.body;
-
-    const updatedChartData = await ChartData.findByIdAndUpdate(
-      id,
-      {
-        data,
-        metadata,
-        updatedAt: new Date()
-      },
-      { new: true }
-    );
-
-    if (!updatedChartData) {
-      return res.status(404).json({
-        message: 'Chart data not found'
-      });
-    }
-
-    res.status(200).json({
-      message: 'Chart data updated successfully',
-      data: updatedChartData
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: 'Error updating chart data',
       error: error.message
     });
   }
