@@ -14,6 +14,15 @@ import {
 } from 'chart.js';
 import { Line, Pie, Bar, Doughnut } from 'react-chartjs-2';
 import axios from 'axios';
+import { 
+  LineChart, 
+  PieChart, 
+  BarChart2, 
+  Activity,
+  TrendingUp,
+  Wind,
+  Zap 
+} from 'lucide-react';
 
 ChartJS.register(
   CategoryScale, 
@@ -40,10 +49,7 @@ const Reports = () => {
   useEffect(() => {
     const fetchChartData = async () => {
       try {
-        // Adjust the endpoint to match your backend route
         const response = await axios.get('http://localhost:3001/api/chartData/charts');
-        
-        // If response.data is already the object we want
         setChartData(response.data);
         setLoading(false);
       } catch (error) {
@@ -56,94 +62,147 @@ const Reports = () => {
     fetchChartData();
   }, []);
 
-  if (loading) return <div className="text-center mt-5">Loading dashboard...</div>;
-  if (error) return <Alert variant="danger">{error}</Alert>;
+  if (loading) return (
+    <div className="min-vh-100 d-flex align-items-center justify-content-center">
+      <div className="text-center">
+        <Wind className="text-success mb-3" size={40} />
+        <h3 className="text-muted">Loading dashboard...</h3>
+      </div>
+    </div>
+  );
+
+  if (error) return (
+    <Container className="mt-5">
+      <Alert variant="danger" className="d-flex align-items-center gap-2">
+        <Activity size={20} />
+        {error}
+      </Alert>
+    </Container>
+  );
 
   return (
-    <Container fluid className="p-4">
-      <h1 className="mb-4 text-center">Clean Energy Innovation Dashboard</h1>
-      <Row>
-        <Col md={6}>
-          <Card className="mb-4 shadow-sm">
-            <Card.Body>
-              <Card.Title>Global Renewable Energy Capacity (2020-2024)</Card.Title>
-              {chartData.renewableGrowth && (
-                <Line 
-                  data={chartData.renewableGrowth}
-                  options={{ 
-                    responsive: true, 
-                    plugins: { 
-                      legend: { position: 'top' },
-                      title: { display: true, text: 'Renewable Energy Growth Trends' }
-                    } 
-                  }} 
-                />
-              )}
-            </Card.Body>
-          </Card>
-        </Col>
+    <div 
+      className="min-vh-100 py-4"
+      style={{
+        background: 'linear-gradient(135deg, #f8f9fa 0%, #e6ffe6 100%)'
+      }}
+    >
+      <Container fluid className="px-4">
+        {/* Header Section */}
+        <div className="text-center mb-5">
+          <div className="d-flex justify-content-center gap-2 mb-3">
+            <Wind size={32} className="text-info" />
+            <Zap size={32} className="text-success" />
+          </div>
+          <h1 className="display-5 mb-2">Clean Energy Analytics</h1>
+          <p className="text-muted lead">Comprehensive insights into renewable energy trends</p>
+        </div>
 
-        <Col md={6}>
-          <Card className="mb-4 shadow-sm">
-            <Card.Body>
-              <Card.Title>Energy Source Distribution 2024</Card.Title>
-              {chartData.energySourceDistribution && (
-                <Pie 
-                  data={chartData.energySourceDistribution}
-                  options={{ 
-                    responsive: true, 
-                    plugins: { 
-                      legend: { position: 'right' },
-                      title: { display: true, text: 'Renewable Energy Mix' }
-                    } 
-                  }} 
-                />
-              )}
-            </Card.Body>
-          </Card>
-        </Col>
+        <Row className="g-4">
+          {/* Renewable Growth Chart */}
+          <Col md={6}>
+            <Card className="h-100 shadow-sm border-0 bg-white/80 backdrop-blur-sm">
+              <Card.Body>
+                <div className="d-flex align-items-center mb-4">
+                  <LineChart size={24} className="text-primary me-2" />
+                  <Card.Title className="mb-0 h4">Global Renewable Energy Capacity</Card.Title>
+                </div>
+                {chartData.renewableGrowth && (
+                  <Line 
+                    data={chartData.renewableGrowth}
+                    options={{ 
+                      responsive: true, 
+                      plugins: { 
+                        legend: { position: 'top' },
+                        title: { display: false }
+                      },
+                      scales: {
+                        y: { beginAtZero: true }
+                      }
+                    }} 
+                  />
+                )}
+              </Card.Body>
+            </Card>
+          </Col>
 
-        <Col md={8}>
-          <Card className="mb-4 shadow-sm">
-            <Card.Body>
-              <Card.Title>CO2 Emission Reduction by Sector</Card.Title>
-              {chartData.co2Reduction && (
-                <Bar 
-                  data={chartData.co2Reduction}
-                  options={{ 
-                    responsive: true,
-                    plugins: {
-                      title: { display: true, text: 'Sector-wise Carbon Emission Reduction' }
-                    }
-                  }}
-                />
-              )}
-            </Card.Body>
-          </Card>
-        </Col>
+          {/* Energy Distribution Chart */}
+          <Col md={6}>
+            <Card className="h-100 shadow-sm border-0 bg-white/80 backdrop-blur-sm">
+              <Card.Body>
+                <div className="d-flex align-items-center mb-4">
+                  <PieChart size={24} className="text-success me-2" />
+                  <Card.Title className="mb-0 h4">Energy Source Distribution</Card.Title>
+                </div>
+                {chartData.energySourceDistribution && (
+                  <Pie 
+                    data={chartData.energySourceDistribution}
+                    options={{ 
+                      responsive: true, 
+                      plugins: { 
+                        legend: { position: 'right' },
+                        title: { display: false }
+                      }
+                    }} 
+                  />
+                )}
+              </Card.Body>
+            </Card>
+          </Col>
 
-        <Col md={4}>
-          <Card className="mb-4 shadow-sm">
-            <Card.Body>
-              <Card.Title>Investment in Clean Tech</Card.Title>
-              {chartData.investmentTrends && (
-                <Doughnut 
-                  data={chartData.investmentTrends}
-                  options={{ 
-                    responsive: true,
-                    plugins: {
-                      title: { display: true, text: 'Clean Technology Investments' }
-                    }
-                  }}
-                />
-              )}
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
+          {/* CO2 Reduction Chart */}
+          <Col md={8}>
+            <Card className="h-100 shadow-sm border-0 bg-white/80 backdrop-blur-sm">
+              <Card.Body>
+                <div className="d-flex align-items-center mb-4">
+                  <BarChart2 size={24} className="text-warning me-2" />
+                  <Card.Title className="mb-0 h4">CO2 Emission Reduction by Sector</Card.Title>
+                </div>
+                {chartData.co2Reduction && (
+                  <Bar 
+                    data={chartData.co2Reduction}
+                    options={{ 
+                      responsive: true,
+                      plugins: {
+                        legend: { position: 'top' },
+                        title: { display: false }
+                      },
+                      scales: {
+                        y: { beginAtZero: true }
+                      }
+                    }}
+                  />
+                )}
+              </Card.Body>
+            </Card>
+          </Col>
 
-      {/* Rest of the component remains the same */}
-    </Container>
+          {/* Investment Trends Chart */}
+          <Col md={4}>
+            <Card className="h-100 shadow-sm border-0 bg-white/80 backdrop-blur-sm">
+              <Card.Body>
+                <div className="d-flex align-items-center mb-4">
+                  <TrendingUp size={24} className="text-info me-2" />
+                  <Card.Title className="mb-0 h4">Clean Tech Investment</Card.Title>
+                </div>
+                {chartData.investmentTrends && (
+                  <Doughnut 
+                    data={chartData.investmentTrends}
+                    options={{ 
+                      responsive: true,
+                      plugins: {
+                        legend: { position: 'bottom' },
+                        title: { display: false }
+                      }
+                    }}
+                  />
+                )}
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
+    </div>
   );
 };
 

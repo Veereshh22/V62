@@ -115,7 +115,28 @@ const initialData = [
     },
     year: new Date().getFullYear(),
     metadata: 'Renewable Energy Installed Capacity by Source'
-  }
+  },
+  {
+    type: 'yearlyGoalsProgress',
+    data: {
+      labels: ['Solar Target', 'Wind Target', 'Energy Storage', 'Grid Modernization', 'CO2 Reduction'],
+      datasets: [{
+        label: 'Progress Percentage',
+        data: [85, 92, 78, 65, 88],
+        borderColor: 'rgb(75, 192, 192)',
+        backgroundColor: [
+          'rgba(255, 159, 64, 0.7)',  // Orange for Solar
+          'rgba(54, 162, 235, 0.7)',   // Blue for Wind
+          'rgba(75, 192, 192, 0.7)',   // Teal for Storage
+          'rgba(153, 102, 255, 0.7)',  // Purple for Grid
+          'rgba(255, 99, 132, 0.7)'    // Pink for CO2
+        ],
+        borderWidth: 1
+      }]
+    },
+    year: new Date().getFullYear(),
+    metadata: 'Annual Renewable Energy Goals Progress'
+}
 ];
 
 async function seedDatabase() {

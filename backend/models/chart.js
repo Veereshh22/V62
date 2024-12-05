@@ -7,7 +7,8 @@ const ChartDataSchema = new mongoose.Schema({
       'renewableGrowth', 
       'energySourceDistribution', 
       'co2Reduction', 
-      'investmentTrends'
+      'investmentTrends',
+      'yearlyGoalsProgress'
     ],
     required: true
   },
