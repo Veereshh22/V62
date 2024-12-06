@@ -49,7 +49,7 @@ const Reports = () => {
   useEffect(() => {
     const fetchChartData = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/api/chartData/charts');
+        const response = await axios.get('/api/chartData/charts');
         setChartData(response.data);
         setLoading(false);
       } catch (error) {

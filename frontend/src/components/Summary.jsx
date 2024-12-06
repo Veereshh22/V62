@@ -59,11 +59,11 @@ const Summary = () => {
     const fetchData = async () => {
       try {
         // Fetch insights data
-        const insightsResponse = await axios.get('http://localhost:3001/api/chartData/insights');
+        const insightsResponse = await axios.get('/api/chartData/insights');
         setSummaryData(insightsResponse.data);
   
         // Fetch chart data separately
-        const chartResponse = await axios.get('http://localhost:3001/api/chartData/charts');
+        const chartResponse = await axios.get('/api/chartData/charts');
         
         // Instead of using find, create the yearlyGoalsProgress chart data
         setChartData({
